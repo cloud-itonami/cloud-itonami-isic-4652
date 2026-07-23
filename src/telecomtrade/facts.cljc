@@ -115,6 +115,13 @@
           :provenance "https://www.gov.uk/government/collections/telecoms-supply-chain-review"
           :required-evidence ["credit-clearance record"
                               "contract/PO"
+                              "sanctions-screening (OFAC/equivalent) record"]}
+   "DEU" {:name "DEU"
+          :owner-authority "Bundesnetzagentur (Federal Network Agency); Bundesamt für Sicherheit in der Informationstechnik (BSI, Federal Office for Information Security)"
+          :legal-basis "Telekommunikationsgesetz (TKG) § 167 -- Katalog von Sicherheitsanforderungen (catalogue of security requirements) and the Liste der kritischen Funktionen für öffentliche Telekommunikationsnetze und -dienste mit erhöhtem Gefährdungspotenzial (list of critical functions for public telecom networks/services with elevated risk potential), issued by the Bundesnetzagentur in agreement with BSI and the Bundesbeauftragte für den Datenschutz und die Informationsfreiheit; BSI-Gesetz (BSIG) § 2 Nr. 23 (definition of 'kritische Komponenten') and § 56 Abs. 6 (Rechtsverordnung empowerment for the Bundesministerium des Innern to designate critical components used in critical facilities/public telecom networks by statutory ordinance)"
+          :provenance "https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/OeffentlicheSicherheit/KatalogSicherheitsanforderungen/start.html"
+          :required-evidence ["credit-clearance record"
+                              "contract/PO"
                               "sanctions-screening (OFAC/equivalent) record"]}})
 
 (defn spec-basis
