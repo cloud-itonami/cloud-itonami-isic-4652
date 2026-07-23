@@ -40,10 +40,9 @@
   the restriction reaches, which order was dispatched, which invoice was
   settled, on what jurisdictional and sourcing basis, approved by whom
   -- always a query over an immutable log."
-  (:require #?(:clj  [clojure.edn :as edn]
-               :cljs [cljs.reader :as edn])
-            [telecomtrade.registry :as registry]
-            [langchain.db :as d]))
+  (:require [telecomtrade.registry :as registry]
+            [langchain.db :as d]
+            [langchain-store.core :as ls]))
 
 (defprotocol Store
   (telecom-order [s id])
@@ -258,9 +257,6 @@
    :dispatch-sequence/jurisdiction       {:db/unique :db.unique/identity}
    :invoice-sequence/jurisdiction        {:db/unique :db.unique/identity}})
 
-(defn- enc [v] (pr-str v))
-(defn- dec* [s] (when s (edn/read-string s)))
-
 ;; Every telecom-order field is stored as its own Datomic attr so a
 ;; governor pull reads the exact ground truth (no blob decode). Boolean
 ;; fields are coerced on read so a missing attr reads back as false
@@ -299,7 +295,7 @@
   (reduce (fn [tx [k attr kind]]
             (let [v (get eo k)]
               (cond-> tx
-                (some? v) (assoc attr (if (= kind :kw) (enc v) v)))))
+                (some? v) (assoc attr (if (= kind :kw) (ls/enc v) v)))))
           {:telecom-order/id (:id eo)}
           telecom-order-fields))
 
@@ -311,7 +307,7 @@
               (let [v (get m attr)]
                 (cond
                   (= kind :bool)  (assoc eo k (boolean v))
-                  (= kind :kw)    (cond-> eo (some? v) (assoc k (dec* v)))
+                  (= kind :kw)    (cond-> eo (some? v) (assoc k (ls/dec* v)))
                   (some? v)       (assoc eo k v)
                   :else           eo)))
             {:id (:telecom-order/id m)}
@@ -326,21 +322,21 @@
          (map #(pull->telecom-order (d/pull (d/db conn) telecom-order-pull [:telecom-order/id %])))
          (sort-by :id)))
   (assessment-of [_ telecom-order-id]
-    (dec* (d/q '[:find ?p . :in $ ?eoid
+    (ls/dec* (d/q '[:find ?p . :in $ ?eoid
                 :where [?a :assessment/telecom-order-id ?eoid] [?a :assessment/payload ?p]]
               (d/db conn) telecom-order-id)))
   (ledger [_]
     (->> (d/q '[:find ?s ?f :where [?e :ledger/seq ?s] [?e :ledger/fact ?f]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (dispatch-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :dispatch/seq ?s] [?e :dispatch/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (invoice-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :invoice/seq ?s] [?e :invoice/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (next-dispatch-sequence [_ jurisdiction]
     (or (d/q '[:find ?n . :in $ ?j
               :where [?e :dispatch-sequence/jurisdiction ?j] [?e :dispatch-sequence/next ?n]]
@@ -361,7 +357,7 @@
       (d/transact! conn [(telecom-order->tx value)])
 
       :sourcing-assessment/set
-      (d/transact! conn [{:assessment/telecom-order-id (first path) :assessment/payload (enc payload)}])
+      (d/transact! conn [{:assessment/telecom-order-id (first path) :assessment/payload (ls/enc payload)}])
 
       :order/mark-dispatched
       (let [telecom-order-id (first path)
@@ -371,7 +367,7 @@
         (d/transact! conn
                      [(telecom-order->tx (assoc telecom-order-patch :id telecom-order-id))
                       {:dispatch-sequence/jurisdiction jurisdiction :dispatch-sequence/next next-n}
-                      {:dispatch/seq (count (dispatch-history s)) :dispatch/record (enc (get result "record"))}])
+                      {:dispatch/seq (count (dispatch-history s)) :dispatch/record (ls/enc (get result "record"))}])
         result)
 
       :order/mark-invoiced
@@ -382,12 +378,12 @@
         (d/transact! conn
                      [(telecom-order->tx (assoc telecom-order-patch :id telecom-order-id))
                       {:invoice-sequence/jurisdiction jurisdiction :invoice-sequence/next next-n}
-                      {:invoice/seq (count (invoice-history s)) :invoice/record (enc (get result "record"))}])
+                      {:invoice/seq (count (invoice-history s)) :invoice/record (ls/enc (get result "record"))}])
         result)
       nil)
     s)
   (append-ledger! [s fact]
-    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (enc fact)}])
+    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (ls/enc fact)}])
     fact)
   (with-telecom-orders [s telecom-orders]
     (when (seq telecom-orders) (d/transact! conn (mapv telecom-order->tx (vals telecom-orders)))) s))
