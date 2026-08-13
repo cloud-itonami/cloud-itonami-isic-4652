@@ -14,7 +14,14 @@
  ;; repo is standalone (forkable outside the workspace); the :local/root
  ;; paths only resolve inside the monorepo checkout -- a standalone fork
  ;; should override them with git coordinates.
- :deps {io.github.kotoba-lang/langgraph
+ ;; jp-go-digital-design-system (DADS) is the workspace-wide base design
+ ;; system; `jp-go-dds.skin/dds+skin` is what `telecomtrade.render-html`
+ ;; inlines into the generated operator console's <style>. Pinned by sha
+ ;; so the generated page stays byte-identical across reruns.
+ :deps {io.github.kotoba-lang/jp-go-digital-design-system
+        {:git/url "https://github.com/kotoba-lang/jp-go-digital-design-system"
+         :git/sha "83db99546eabc53613ae826ea41d1533a3c574af"}
+        io.github.kotoba-lang/langgraph
         {:local/root "../../kotoba-lang/langgraph"}
         io.github.kotoba-lang/langchain-store
         {:local/root "../../kotoba-lang/langchain-store"}}
@@ -25,6 +32,11 @@
          {:local/root "../../kotoba-lang/langchain"}}}
   ;; clojure -M:dev:run  -> drive the demo through one OperationActor
   :run {:main-opts ["-m" "telecomtrade.sim"]}
+  ;; clojure -M:dev:render-html [out-file] -> regenerate
+  ;; docs/samples/operator-console.html from a REAL actor run
+  ;; (operation -> governor -> store). Refuses to write a page from a
+  ;; scenario with no HARD governor hold, or with no commit.
+  :render-html {:main-opts ["-m" "telecomtrade.render-html"]}
   :test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner
                       {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
