@@ -46,7 +46,7 @@
   Usage: `clojure -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [langgraph.graph :as g]
             [telecomtrade.facts :as facts]
             [telecomtrade.governor :as governor]
@@ -374,7 +374,7 @@
     (->> m
          (map (fn [[k v]] [(nm k) v]))
          (sort-by first)
-         (some (fn [[k v]] (when (str/includes? (str/lower-case k) "approv") [k v]))))))
+         (some (fn [[k v]] (when (str/includes? (str/lower k) "approv") [k v]))))))
 
 (defn- artifacts-for
   "The SSoT artifacts this op actually wrote, read back out of the store
