@@ -80,7 +80,7 @@ Two independent layers enforce this (`telecomtrade.governor`'s
 `:delivery/dispatch`/`:invoice/settle` high-stakes gate and
 `telecomtrade.phase`'s phase table, which never puts either op in any
 phase's `:auto` set) -- see `telecomtrade.phase`'s docstring and
-`test/telecomtrade/phase_test.clj`'s
+`test/telecomtrade/phase_test.cljk`'s
 `delivery-dispatch-never-auto-at-any-phase`/
 `invoice-settle-never-auto-at-any-phase`. The actor may draft, check and
 recommend; a human trading supervisor is always the one who actually
@@ -184,14 +184,14 @@ generic robotics/identity/forms/dmn/bpmn/audit-ledger stack.
 
 | File | Role |
 |---|---|
-| `src/telecomtrade/store.cljc` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + dispatch AND invoice history. The double-actuation guards check dedicated `:dispatched?`/`:invoiced?` booleans rather than a `:status` value |
-| `src/telecomtrade/registry.cljc` | Dispatch/invoice draft records (record construction only -- the Telecom Supply-Chain Governor's checks are direct entity/catalog reads, so there are no pure range-check functions to host here) |
-| `src/telecomtrade/facts.cljc` | Per-jurisdiction spec-basis catalog PLUS the `covered-manufacturers` named-entity list and `restricted-buyer-categories` set -- the TWO independent catalogs this vertical's domain-defining check ANDs together |
-| `src/telecomtrade/telecomtradeadvisor.cljc` | **TelecomTradeAdvisor** -- `mock-advisor` ‖ `llm-advisor`; intake/sourcing-verification/dispatch/invoice proposals |
-| `src/telecomtrade/governor.cljc` | **Telecom Supply-Chain Governor** -- 6 HARD checks (spec-basis · evidence-incomplete · credit-uncleared · contract-missing · covered-manufacturer-buyer-restricted · counterparty-sanctions-flag-unresolved) + 2 double-actuation guards + 1 soft (confidence/actuation gate) |
-| `src/telecomtrade/phase.cljc` | **Phase 0→3** -- read-only → assisted intake → assisted verify → supervised (dispatch/invoice always human; order intake is the ONLY auto-eligible op) |
-| `src/telecomtrade/operation.cljc` | **OperationActor** -- langgraph StateGraph |
-| `src/telecomtrade/sim.cljc` | demo driver |
+| `src/telecomtrade/store.cljk` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + dispatch AND invoice history. The double-actuation guards check dedicated `:dispatched?`/`:invoiced?` booleans rather than a `:status` value |
+| `src/telecomtrade/registry.cljk` | Dispatch/invoice draft records (record construction only -- the Telecom Supply-Chain Governor's checks are direct entity/catalog reads, so there are no pure range-check functions to host here) |
+| `src/telecomtrade/facts.cljk` | Per-jurisdiction spec-basis catalog PLUS the `covered-manufacturers` named-entity list and `restricted-buyer-categories` set -- the TWO independent catalogs this vertical's domain-defining check ANDs together |
+| `src/telecomtrade/telecomtradeadvisor.cljk` | **TelecomTradeAdvisor** -- `mock-advisor` ‖ `llm-advisor`; intake/sourcing-verification/dispatch/invoice proposals |
+| `src/telecomtrade/governor.cljk` | **Telecom Supply-Chain Governor** -- 6 HARD checks (spec-basis · evidence-incomplete · credit-uncleared · contract-missing · covered-manufacturer-buyer-restricted · counterparty-sanctions-flag-unresolved) + 2 double-actuation guards + 1 soft (confidence/actuation gate) |
+| `src/telecomtrade/phase.cljk` | **Phase 0→3** -- read-only → assisted intake → assisted verify → supervised (dispatch/invoice always human; order intake is the ONLY auto-eligible op) |
+| `src/telecomtrade/operation.cljk` | **OperationActor** -- langgraph StateGraph |
+| `src/telecomtrade/sim.cljk` | demo driver |
 | `test/telecomtrade/*_test.clj` | governor contract (including the control triple proving the covered-manufacturer/buyer-category conjunction) · phase invariants · store parity · registry conformance · facts coverage |
 
 ## Business-process coverage (honest)

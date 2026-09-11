@@ -71,7 +71,7 @@
   `docs/adr/0001-architecture.md` Decision 4 for the full three-way
   contrast (single boolean / two sequential dependent checks / two-arms-
   fold-into-one / two-independent-facts-conjunction) and
-  `test/telecomtrade/governor_contract_test.clj`'s control TRIPLE
+  `test/telecomtrade/governor_contract_test.cljk`'s control TRIPLE
   (`eo-5`/`eo-6`/`eo-7`) proving neither fact alone triggers the hold.
 
   Six checks, in priority order, ALL HARD violations: a human approver
@@ -238,7 +238,7 @@
   Corporation, `:fcc-usf-funded-carrier` buyer) proves the restriction
   also reaches the USF-funding-nexus category, not merely
   `:federal-agency`.
-  `test/telecomtrade/governor_contract_test.clj`'s
+  `test/telecomtrade/governor_contract_test.cljk`'s
   `covered-manufacturer-alone-does-not-block-a-commercial-unrestricted-
   buyer`, `restricted-buyer-category-alone-does-not-block-a-non-covered-
   manufacturer`, and `covered-manufacturer-and-restricted-buyer-

@@ -31,7 +31,7 @@ clojure -M:lint
   `telecomtrade.facts/restricted-buyer-categories`) -- do not collapse
   it into a blanket manufacturer ban or a blanket buyer-category ban
   (see `docs/adr/0001-architecture.md` Decision 4 for why, and the
-  control-triple tests in `test/telecomtrade/governor_contract_test.clj`
+  control-triple tests in `test/telecomtrade/governor_contract_test.cljk`
   that would break if either side alone started triggering the hold).
 - Never fabricate a jurisdiction's telecom-supply-chain-sourcing
   requirements in `telecomtrade.facts/catalog`, or a manufacturer's
