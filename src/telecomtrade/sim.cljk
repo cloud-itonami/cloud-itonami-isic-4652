@@ -1,5 +1,5 @@
 (ns telecomtrade.sim
-  "Demo driver -- `clojure -M:dev:run`. Walks a clean order through
+  "Demo driver -- `kbb -M:dev:run`. Walks a clean order through
   intake -> sourcing verification -> equipment dispatch (escalate/
   approve/commit) -> invoice settlement (escalate/approve/commit), then
   shows the CONTROL TRIPLE that proves the domain-defining check
