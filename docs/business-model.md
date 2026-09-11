@@ -74,7 +74,7 @@ Telecommunications Equipment and Parts, ISIC 4652) and to the three
 `:supply-chain-integrity`, `:transparency`).
 
 This is the rule the companion contract test
-(`test/telecomtrade/governor_contract_test.clj`) encodes end-to-end: the
+(`test/telecomtrade/governor_contract_test.cljk`) encodes end-to-end: the
 TelecomTradeAdvisor never dispatches equipment to a counterparty or
 settles an invoice the Telecom Supply-Chain Governor would reject,
 `:delivery/dispatch` and `:invoice/settle` NEVER auto-commit at any
@@ -185,7 +185,7 @@ evidentiary arm of a single procedure the way Basel Convention
 notification-then-consent are. They are two structurally unrelated
 questions -- "who made this?" and "who is buying it, and how are they
 funded?" -- whose CONJUNCTION is specifically what Section 889 and the
-FCC's USF rule restrict. `test/telecomtrade/governor_contract_test.clj`
+FCC's USF rule restrict. `test/telecomtrade/governor_contract_test.cljk`
 proves this is a genuine conjunction with a CONTROL TRIPLE:
 
 - `covered-manufacturer-alone-does-not-block-a-commercial-unrestricted-

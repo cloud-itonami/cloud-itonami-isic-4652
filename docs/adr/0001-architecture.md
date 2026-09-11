@@ -203,7 +203,7 @@ options were considered:
   buyer, both facts true at once) HOLDS. `eo-9` (a DIFFERENT covered
   manufacturer, `:fcc-usf-funded-carrier` buyer) proves the restriction
   reaches more than one buyer category.
-  `test/telecomtrade/governor_contract_test.clj`'s
+  `test/telecomtrade/governor_contract_test.cljk`'s
   `covered-manufacturer-alone-does-not-block-a-commercial-unrestricted-
   buyer`, `restricted-buyer-category-alone-does-not-block-a-non-covered-
   manufacturer`, `covered-manufacturer-and-restricted-buyer-category-
@@ -252,7 +252,7 @@ discipline every prior governor's guards establish, informed by
 `telecomtrade.store/Store` is implemented by both `MemStore` (atom-
 backed, default for dev/tests/demo) and `DatomicStore`
 (`langchain.db`-backed), proven to satisfy the same contract in
-`test/telecomtrade/store_contract_test.clj`. Like the computer/software-
+`test/telecomtrade/store_contract_test.cljk`. Like the computer/software-
 wholesale sibling's own DatomicStore (and UNLIKE the fuel-wholesale
 sibling's own simpler encoding), this one round-trips KEYWORD-valued
 fields (`:equipment-type`, `:buyer-category`, `:status`) through an
@@ -354,7 +354,7 @@ cleared the same sign-off a human trading supervisor would need.
   sibling exists -- the right shape depends on whether the vertical
   actually has a non-physical release channel, not on precedent alone.
 - `MemStore` || `DatomicStore` parity is proven by
-  `test/telecomtrade/store_contract_test.clj`, including keyword-field
+  `test/telecomtrade/store_contract_test.cljk`, including keyword-field
   round-trip parity (`:equipment-type`, `:buyer-category`) matching the
   computer/software-wholesale sibling's own discipline for load-bearing
   keyword fields.
