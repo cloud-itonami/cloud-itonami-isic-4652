@@ -43,7 +43,7 @@
   the governor as either toothless or total. That makes the HARD-hold
   requirement a build-time invariant instead of a convention.
 
-  Usage: `clojure -M:dev:render-html [out-file]`
+  Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
             [kotoba.lang.text :as str]
@@ -512,7 +512,7 @@
      "  <h1>Wholesale of electronic and telecommunications equipment and parts (ISIC 4652) &mdash; Operator Console</h1>\n"
      "</header>\n"
      "<p class=\"subtitle\">Generated at build time by <code>telecomtrade.render-html</code> "
-     "(<code>clojure -M:dev:render-html</code>) from one real run of "
+     "(<code>kbb -M:dev:render-html</code>) from one real run of "
      "<code>telecomtrade.operation</code> &rarr; <code>telecomtrade.governor</code> &rarr; "
      "<code>telecomtrade.store</code> against <code>telecomtrade.store/seed-db</code>. "
      "Every id, name, number, rule and verdict below was produced by that run. "
@@ -673,7 +673,7 @@
      "<footer>\n"
      "  <p class=\"muted\">cloud-itonami-isic-4652 &middot; TelecomTradeAdvisor &#8867; "
      "<code>:telecom-supply-chain-governor</code> &middot; regenerate with "
-     "<code>clojure -M:dev:render-html</code>. Drafts on this page are unsigned; signature is the "
+     "<code>kbb -M:dev:render-html</code>. Drafts on this page are unsigned; signature is the "
      "operator's act, not this actor's.</p>\n"
      "</footer>\n"
      "</body></html>\n")))

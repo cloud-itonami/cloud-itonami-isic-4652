@@ -360,7 +360,7 @@ cleared the same sign-off a human trading supervisor would need.
   keyword fields.
 - Lint is clean; the full test count and demo behavior are recorded in
   README `Run` / `docs/business-model.md` Maturity; the demo
-  (`clojure -M:dev:run`) walks one clean dispatch + invoice lifecycle,
+  (`kbb -M:dev:run`) walks one clean dispatch + invoice lifecycle,
   the four-leg control-triple proving the covered-manufacturer/buyer-
   category conjunction, and the remaining HARD-hold scenarios (no
   spec-basis, credit-uncleared, contract-missing, counterparty-
