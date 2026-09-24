@@ -1,0 +1,33 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": an AS/RS / goods-to-person robotic shuttle
+;; picks and stages ESD-safe router, switch, base-station and radio cartons
+;; at the wholesale distribution centre (ISIC 4652). The physical work: an
+;; arm staging heavy radio-unit cartons, and an AGV pushing a dense pallet
+;; of telecom backup batteries up the dock ramp.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-4652"
+ :cases
+ [{:id :stage-radio-unit-carton
+   :kind :manipulator
+   :procedure "staging arm lifts a base-station radio-unit carton from the shuttle port onto the dispatch pallet"
+   :params {:l1-m 0.70 :l2-m 0.60 :m1-kg 14.0 :m2-kg 8.0
+            :from [0.80 0.10] :to [0.40 0.90] :duration-s 2.5 :steps 500}
+   :sweep {:param :payload-kg :values [5.0 10.0 20.0 30.0 40.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 300.0 :basis "estimate: continuous shoulder torque of a ~25 kg-payload arm with a 1.3 m reach"}
+   :boundary {:lo 1.0 :hi 100.0}}
+  {:id :battery-pallet-up-dock-ramp
+   :kind :transport
+   :procedure "AGV carries a pallet of lead-acid telecom backup batteries 8 m up the 4-degree dock ramp into the trailer"
+   :params {:mass-kg 800.0 :distance-m 8.0 :v-max-mps 1.5 :a-max-mps2 0.6 :brake-decel-mps2 0.8
+            :drive-force-n 2000.0 :crr 0.015 :cog-height-m 0.40 :payload-cog-height-m 0.50
+            :support-half-length-m 0.60 :slope-deg 4.0 :max-time-s 600.0}
+   :sweep {:param :payload-kg :values [400.0 700.0 1000.0 1200.0 1400.0]}
+   :quantity :cycle-time-s
+   :limit {:max 12.0 :basis "estimate: the ramp leg's share of a trailer-loading slot at the dock door"}
+   :boundary {:lo 100.0 :hi 1550.0}}]}
