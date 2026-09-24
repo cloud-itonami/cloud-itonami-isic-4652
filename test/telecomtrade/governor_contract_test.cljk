@@ -19,7 +19,7 @@
   the CONTROL TRIPLE below (`eo-5`/`eo-6`/`eo-7`) proves neither fact
   alone triggers the hold, and `eo-9` proves the restriction reaches a
   SECOND restricted buyer category, not just `:federal-agency`."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [langgraph.graph :as g]
             [telecomtrade.facts :as facts]
             [telecomtrade.store :as store]

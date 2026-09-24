@@ -1,5 +1,5 @@
 (ns telecomtrade.registry-test
-  (:require [clojure.test :refer [deftest is]]
+  (:require [kotoba.test :refer [deftest is]]
             [telecomtrade.registry :as r]))
 
 ;; The telecom-trading domain checks (credit-clearance, contract-on-file,
